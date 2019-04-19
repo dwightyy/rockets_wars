@@ -18,7 +18,7 @@ AREA = W * H
 pygame.init()
 CLOCK = pygame.time.Clock()
 DS = pygame.display.set_mode((W, H))
-pygame.display.set_caption("code.Pylet - Scrolling Background with Player")
+pygame.display.set_caption("Enemies Atacks the moon - seasson 1")
 FPS = 500
 
 # define some colors
@@ -35,22 +35,27 @@ score = 0
 life = 100
 damage = 100
 
-
+# create background and main character images
 bg = pygame.image.load("mountains.png").convert()
-#bg = pygame.image.load("level_2.jpg").convert()
+spaceship = pygame.transform.scale(pygame.image.load("spaceship.png").convert(), (50, 50))
 bgWidth, bgHeight = bg.get_rect().size
 
+
+# define level size. For increase level difficult, change the factor after bgWidth
 stageWidth = bgWidth * 2
 stagePosX = 0
 
+# define inicial scroll status
 startScrollingPosX = HW
 
+
 circleRadius = 25
-circlePosX = circleRadius
+spaceShipPosX = circleRadius
 
 playerPosX = circleRadius
-playerPosY = 585
+playerPosY = H / 2
 playerVelocityX = 0
+playerVelocityY = 0
 
 # main loop
 while True:
@@ -66,16 +71,22 @@ while True:
         playerVelocityX = -1
         if life <= 100 and damage >= 0:
                 life += 1
+    elif k[K_UP]:
+        playerPosY -= 1
+
+    elif k[K_DOWN]:
+        playerPosY += 1
+    
     else:
         playerVelocityX = 0
         
     playerPosX += playerVelocityX
     if playerPosX > stageWidth - circleRadius: playerPosX = stageWidth - circleRadius
     if playerPosX < circleRadius: playerPosX = circleRadius
-    if playerPosX < startScrollingPosX: circlePosX = playerPosX
-    elif playerPosX > stageWidth - startScrollingPosX: circlePosX = playerPosX - stageWidth + W
+    if playerPosX < startScrollingPosX: spaceShipPosX = playerPosX
+    elif playerPosX > stageWidth - startScrollingPosX: spaceShipPosX = playerPosX - stageWidth + W
     else:
-        circlePosX = startScrollingPosX
+        spaceShipPosX = startScrollingPosX
         stagePosX += -playerVelocityX
     
     rel_x = stagePosX % bgWidth
@@ -85,9 +96,8 @@ while True:
 
     pygame.draw.rect(DS, RED, pygame.Rect(20, 20, 100, 30))
     pygame.draw.rect(DS, GREEN, pygame.Rect(20, 20, life, 30))
-    pygame.draw.circle(DS, (255,0,0), (int(circlePosX), int(50)), int(50), 0)
-    
-    
+    DS.blit(spaceship, (int(spaceShipPosX), int(playerPosY)))
+
 
     pygame.display.update()
     CLOCK.tick(FPS)
