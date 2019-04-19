@@ -1,7 +1,3 @@
-# code.Pylet - Scrolling Background With Player
-# watch the video here - https://youtu.be/AX8YU2hLBUg
-# Any questions? Just ask!
-
 import math, random, sys
 import pygame
 from pygame.locals import *
@@ -29,7 +25,8 @@ FPS = 500
 BLACK = (0, 0, 0, 255)
 WHITE = (255, 255, 255, 255)
 
-bg = pygame.image.load("C:/Users/andre.santos/Desktop/PyGame RocketWar -- Mechanics/mountains.png").convert()
+#bg = pygame.image.load("level_1.jpg").convert()
+bg = pygame.image.load("level_2.jpg").convert()
 bgWidth, bgHeight = bg.get_rect().size
 
 stageWidth = bgWidth * 2
@@ -71,7 +68,7 @@ while True:
 	if rel_x < W:
 		DS.blit(bg, (rel_x, 0))
 	
-	pygame.draw.circle(DS, (255,0,0), (circlePosX, 50), 50, 0)
+	pygame.draw.circle(DS, (255,0,0), (int(circlePosX), int(50)), int(50), 0)
 	
 	
 
