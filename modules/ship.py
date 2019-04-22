@@ -1,10 +1,11 @@
 class Ship():
-    def __init__(self, pos_x, pos_y):
+    def __init__(self, pos_x, pos_y, sprite):
         self.accel = 0
         self.y_vel = 0
         self.x_vel = 0
         self.pos_x = pos_x
         self.pos_y = pos_y
+        self.sprite = sprite
 
     def move_up():
         self.y_vel = y_vel - self.accel
