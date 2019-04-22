@@ -3,6 +3,7 @@ import random
 import sys
 import pygame
 from pygame.locals import *
+from config import *
 
 # exit the program
 def events():
@@ -11,27 +12,14 @@ def events():
                 pygame.quit()
                 sys.exit()
 
-# define display surface            
-W, H = 1280, 720
-HW, HH = W / 2, H / 2
-AREA = W * H
-
 # initialise display
 pygame.init()
 CLOCK = pygame.time.Clock()
 DS = pygame.display.set_mode((W, H))
 pygame.display.set_caption("Enemies Atacks the moon - seasson 1")
-FPS = 500
-
-# define some colors
-BLACK = (0, 0, 0, 255)
-WHITE = (255, 255, 255, 255)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
 
 # define player score system
 score = 0
-
 
 # define lifebar
 life = 100
