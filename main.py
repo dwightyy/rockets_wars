@@ -3,7 +3,7 @@ import random
 import sys
 import pygame
 from pygame.locals import *
-from config import *
+from modules.config import *
 
 # exit the program
 def events():
@@ -26,8 +26,8 @@ life = 100
 damage = 100
 
 # create background and main character images
-bg = pygame.image.load("mountains.png").convert()
-spaceship = pygame.transform.scale(pygame.image.load("spaceship.png").convert(), (50, 50))
+bg = pygame.image.load("assets/imgs/mountains.png").convert()
+spaceship = pygame.transform.scale(pygame.image.load("assets/imgs/spaceship.png").convert(), (50, 50))
 bgWidth, bgHeight = bg.get_rect().size
 
 
