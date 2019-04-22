@@ -18,10 +18,7 @@ def desenharTiro(tiros):
 
 # exit the program
 def events():
-    for event in pygame.event.get():
-        if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
-            pygame.quit()
-            sys.exit()
+    pass
 
 
 # initialise display
@@ -43,7 +40,14 @@ tiros = []
 ship = Ship(30, H/2, MAIN_SHIP_SPRITE)
 
 while True:
-    events()
+    for event in pygame.event.get():
+        if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
+            pygame.quit()
+            sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                tiros.append(
+                    {'x': ship.pos_x+50, 'y': ship.pos_y+23, 'status': 1})
 
     k = pygame.key.get_pressed()
 
@@ -58,9 +62,6 @@ while True:
 
     elif k[K_DOWN]:
         ship.move_down()
-
-    elif k[K_SPACE]:
-        tiros.append({'x': playerPosX+50, 'y': playerPosY+23, 'status': 1})
 
     pygame.draw.rect(DS, RED, pygame.Rect(20, 20, 100, 30))
     pygame.draw.rect(DS, GREEN, pygame.Rect(20, 20, life, 30))
