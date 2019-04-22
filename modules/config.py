@@ -1,7 +1,7 @@
 import pygame
 
 # MAIN SHIP SPRITE
-MAIN_SHIP_SPRITE = pygame.image.load('assets/imgs/spaceship.png').convert()
+MAIN_SHIP_SPRITE = pygame.image.load('assets/imgs/spaceship.png')
 
 # COLORS
 BLACK = (0, 0, 0, 255)

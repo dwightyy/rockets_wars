@@ -48,16 +48,16 @@ while True:
     k = pygame.key.get_pressed()
 
     if k[K_RIGHT]:
-        pass
+        ship.move_right()
 
     elif k[K_LEFT]:
-        pass
+        ship.move_left()
 
     elif k[K_UP]:
-        pass
+        ship.move_up()
 
     elif k[K_DOWN]:
-        pass
+        ship.move_down()
 
     elif k[K_SPACE]:
         tiros.append({'x': playerPosX+50, 'y': playerPosY+23, 'status': 1})
@@ -66,7 +66,7 @@ while True:
     pygame.draw.rect(DS, GREEN, pygame.Rect(20, 20, life, 30))
     DS.fill([255, 255, 255])
     DS.blit(bg, (0, 0))
-    DS.blit(ship.sprite)
+    DS.blit(ship.sprite, (ship.pos_x, ship.pos_y))
 
     desenharTiro(tiros)
 
