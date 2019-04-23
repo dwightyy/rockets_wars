@@ -6,21 +6,6 @@ from pygame.locals import *
 from modules.config import *
 from modules.ship import Ship
 
-
-def desenharTiro(tiros):
-    for t in range(len(tiros)):
-        if(tiros[t]['status'] == 1):
-            pygame.draw.rect(DS, RED, pygame.Rect(
-                tiros[t]['x'], tiros[t]['y'], 10, 5))
-
-            tiros[t]['x'] += 10
-
-
-# exit the program
-def events():
-    pass
-
-
 # initialise display
 pygame.init()
 CLOCK = pygame.time.Clock()
@@ -35,7 +20,7 @@ damage = 100
 # create background and main character images
 bg = pygame.image.load("assets/imgs/mountains.png").convert()
 
-tiros = []
+bullets = []
 # main loop
 ship = Ship(30, H/2, MAIN_SHIP_SPRITE)
 
@@ -46,7 +31,7 @@ while True:
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                tiros.append(
+                bullets.append(
                     {'x': ship.pos_x+50, 'y': ship.pos_y+23, 'status': 1})
 
     k = pygame.key.get_pressed()
@@ -67,9 +52,8 @@ while True:
     pygame.draw.rect(DS, GREEN, pygame.Rect(20, 20, life, 30))
     DS.fill([255, 255, 255])
     DS.blit(bg, (0, 0))
-    DS.blit(ship.sprite, (ship.pos_x, ship.pos_y))
 
-    desenharTiro(tiros)
+    ship.fire(DS, bullets)
 
     pygame.display.update()
     CLOCK.tick(FPS)
