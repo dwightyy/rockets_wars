@@ -19,42 +19,45 @@ damage = 100
 
 # create background and main character images
 bg = pygame.image.load("assets/imgs/mountains.png").convert()
+bg_rect = bg.get_rect()
 
-bullets = []
 # main loop
-ship = Ship(30, H/2, MAIN_SHIP_SPRITE)
+
+
+all_sprites = pygame.sprite.Group()
+ship = Ship()
+all_sprites.add(ship)
 
 while True:
+    CLOCK.tick(FPS)
     for event in pygame.event.get():
         if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
             pygame.quit()
             sys.exit()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                bullets.append(
-                    {'x': ship.pos_x+50, 'y': ship.pos_y+23, 'status': 1})
-
     k = pygame.key.get_pressed()
 
     if k[K_RIGHT]:
-        ship.move_right()
+        pass
 
     elif k[K_LEFT]:
-        ship.move_left()
+        pass
 
     elif k[K_UP]:
-        ship.move_up()
+        pass
 
     elif k[K_DOWN]:
-        ship.move_down()
+        pass
 
-    pygame.draw.rect(DS, RED, pygame.Rect(20, 20, 100, 30))
-    pygame.draw.rect(DS, GREEN, pygame.Rect(20, 20, life, 30))
-    DS.fill([255, 255, 255])
-    DS.blit(bg, (0, 0))
+    all_sprites.update()
+
+    #pygame.draw.rect(DS, RED, pygame.Rect(20, 20, 100, 30))
+    #pygame.draw.rect(DS, GREEN, pygame.Rect(20, 20, life, 30))
 
     ship.fire(DS, bullets)
 
-    pygame.display.update()
-    CLOCK.tick(FPS)
+   # Draw / render
     DS.fill(BLACK)
+    DS.blit(bg, bg_rect)
+    all_sprites.draw(DS)
+    # *after* drawing everything, flip the display
+    pygame.display.flip()
