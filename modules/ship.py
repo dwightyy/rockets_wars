@@ -9,8 +9,8 @@ class Ship(pygame.sprite.Sprite):
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         #self.radius = 25
-        self.rect.centerx = W/2
-        self.rect.left = 0
+        self.rect.centery = H / 2
+        self.rect.centerx = 50
         self.speed_x = 0
 
     def update(self):
@@ -30,9 +30,13 @@ class Ship(pygame.sprite.Sprite):
         self.check_boundaries()
 
     def check_boundaries(self):
-        if self.rect.right > W:
+        if self.rect.top < 0:
+            self.rect.top = 0
+        elif self.rect.bottom > H:
+            self.rect.bottom = H
+        elif self.rect.right > W:
             self.rect.right = W
-        if self.rect.left < 0:
+        elif self.rect.left < 0:
             self.rect.left = 0
 
     def move_up(self):

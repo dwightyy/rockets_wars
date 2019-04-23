@@ -53,8 +53,6 @@ while True:
     #pygame.draw.rect(DS, RED, pygame.Rect(20, 20, 100, 30))
     #pygame.draw.rect(DS, GREEN, pygame.Rect(20, 20, life, 30))
 
-    ship.fire(DS, bullets)
-
    # Draw / render
     DS.fill(BLACK)
     DS.blit(bg, bg_rect)
