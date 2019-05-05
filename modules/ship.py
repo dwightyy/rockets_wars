@@ -1,6 +1,22 @@
 import pygame
 from modules.config import *
 
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((20, 10))
+        self.image.fill(BLUE)
+        self.rect = self.image.get_rect()
+        self.rect.bottom = y
+        self.rect.centerx = x
+        self.speed_x = -10
+
+    def update(self):
+        self.rect.x -= self.speed_x
+        # kill if off top of screen
+        if self.rect.right > W:
+            self.kill()
+
 
 class Ship(pygame.sprite.Sprite):
     def __init__(self):
@@ -28,6 +44,12 @@ class Ship(pygame.sprite.Sprite):
         self.rect.x += self.speed_x
         self.rect.y += self.speed_y
         self.check_boundaries()
+
+    def shoot(self, all_sprites, bullets):
+        bullet = Bullet(self.rect.right, self.rect.centery)
+        all_sprites.add(bullet)
+        bullets.add(bullet)
+        return all_sprites
 
     def check_boundaries(self):
         if self.rect.top < 0:
