@@ -21,7 +21,7 @@ def parallax():
     CLOCK = pygame.time.Clock() 
     DS = pygame.display.set_mode((W, H))
     pygame.display.set_caption("teste")
-    FPS = 120
+    FPS = 60
 
     bkgd = pygame.image.load("mountains.png").convert()
     x = 0

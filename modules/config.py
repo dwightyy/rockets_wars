@@ -1,4 +1,4 @@
-import pygame
+simport pygame
 
 # MAIN SHIP SPRITE
 MAIN_SHIP_SPRITE = pygame.image.load('assets/imgs/spaceship.png')

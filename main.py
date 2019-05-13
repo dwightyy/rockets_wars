@@ -32,7 +32,7 @@ enemy_ships = pygame.sprite.Group()
 ship = Ship()
 all_sprites.add(ship)
 
-
+x = 0
 def spawn_enemy_ships(enemy_ships):
     for i in range(3):
         random_y, random_x = random.randint(50, 680), random.randint(1000, 1150)
@@ -53,6 +53,13 @@ while True:
             if event.key == pygame.K_SPACE:
                 all_sprites = ship.shoot(all_sprites, bullets)
                 print(all_sprites, bullets)
+                all_sprites = 
+    DS.fill(BLACK)
+    rel_x = x % bg.get_rect().width
+    DS.blit(bg, (rel_x - bg.get_rect().width, 0))
+    if rel_x < W:
+        DS.blit(bg, (rel_x, 0))
+    x -= 1
 
     k = pygame.key.get_pressed()
  
@@ -66,8 +73,8 @@ while True:
     #pygame.draw.rect(DS, GREEN, pygame.Rect(20, 20, life, 30))
 
    # Draw / render
-    DS.fill(BLACK)
-    DS.blit(bg, bg_rect)
+
+
     all_sprites.draw(DS)
     # *after* drawing everything, flip the display
     pygame.display.flip()
