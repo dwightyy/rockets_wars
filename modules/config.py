@@ -10,6 +10,9 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
+BLOCK_COLOR = (53, 115, 255)
+
+
 FPS = 60
 
 
@@ -19,5 +22,4 @@ HW, HH = W / 2, H / 2
 AREA = W * H
 
 
-LEVEL_1_TIME = 30
-
+#LEVEL_1_TIME = 30
