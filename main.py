@@ -21,6 +21,9 @@ DS = pygame.display.set_mode((W, H))
 pygame.display.set_caption("Enemies Atacks the moon - seasson 1")
 
 
+spawn_ships_time = [2, 10, 15, 25, 45, 62, 70, 85, 100, 122, 140, 155]
+
+
 def main():
     # score
     score = 0
@@ -44,9 +47,12 @@ def main():
 
     all_sprites = pygame.sprite.Group()
     bullets = pygame.sprite.Group()
-    enemy_ships = pygame.sprite.Group()
+
     ship = Ship()
-    all_sprites.add(ship)
+
+    main_ship_sprite_group = pygame.sprite.Group()
+    main_ship_sprite_group.add(ship)
+    all_sprites.add(main_ship_sprite_group)
 
     x = 0
 
@@ -165,14 +171,20 @@ def main():
             enemy_ships.add(EnemyShip(random_x, random_y, enemy_ship_life))
         return enemy_ships
 
-    enemy_ships = spawn_enemy_ships(enemy_ships, fase)
+    def check_enemy_ships_limit(enemy_ships):
+        for en_ships in enemy_ships:
+            if en_ships.rect.left <= -20:
+                en_ships.kill()
 
     game_intro()
 
-    all_sprites.add(enemy_ships)
     start_ticks = pygame.time.get_ticks()
+    enemy_ships = pygame.sprite.Group()
 
+    enemy_ship_spawn_flag = 1
+    curr_second = 0
     while True:
+
         CLOCK.tick(FPS)
         game_fase_font = FONT.render("Fase " + str(fase), False, (WHITE))
 
@@ -203,22 +215,36 @@ def main():
 
         k = pygame.key.get_pressed()
 
+        if seconds in spawn_ships_time and enemy_ship_spawn_flag == 1:
+            curr_second = seconds
+            enemy_ships = spawn_enemy_ships(enemy_ships, fase)
+            all_sprites.add(enemy_ships)
+            enemy_ship_spawn_flag = 0
+
+        if seconds == curr_second + 1:
+            enemy_ship_spawn_flag = 1
+
         all_sprites.update()
 
         hits_enemy_ship = pygame.sprite.groupcollide(
             enemy_ships, bullets, False, True)
+
+        ship_hit_by_enemy = pygame.sprite.groupcollide(
+            main_ship_sprite_group, enemy_ships, False, True)
+
         if hits_enemy_ship:
             for hit_ship in hits_enemy_ship:
                 hit_ship.enemy_ship_life -= ship.damage
                 if hit_ship.enemy_ship_life <= 0:
                     hit_ship.kill()
+                    if hits_enemy_ship != {} and fase == 1:
+                        score += 10
+                    elif hits_enemy_ship != {} and fase == 2:
+                        score += 20
+                    elif hits_enemy_ship != {} and fase == 3:
+                        score += 30
 
-        if hits_enemy_ship != {} and fase == 1:
-            score += 10
-        if hits_enemy_ship != {} and fase == 2:
-            score += 20
-        if hits_enemy_ship != {} and fase == 3:
-            score += 30
+        check_enemy_ships_limit(enemy_ships)
 
         game_score = FONT.render("Score: " + str(score), False, (WHITE))
 

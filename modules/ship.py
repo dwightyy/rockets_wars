@@ -45,7 +45,7 @@ class Ship(pygame.sprite.Sprite):
             self.move_down()
         self.rect.x += self.speed_x
         self.rect.y += self.speed_y
-        self.check_boundaries()
+        # self.check_boundaries()
 
     def shoot(self, all_sprites, bullets):
         bullet = Bullet(self.rect.right, self.rect.centery)
@@ -53,15 +53,15 @@ class Ship(pygame.sprite.Sprite):
         bullets.add(bullet)
         return all_sprites
 
-    def check_boundaries(self):
-        if self.rect.top < 0:
-            self.rect.top = 0
-        elif self.rect.bottom > H:
-            self.rect.bottom = H
-        elif self.rect.right > W:
-            self.rect.right = W
-        elif self.rect.left < 0:
-            self.rect.left = 0
+    # def check_boundaries(self):
+    #     if self.rect.top < 0:
+    #         self.rect.top = 0
+    #     elif self.rect.bottom > H:
+    #         self.rect.bottom = H
+    #     elif self.rect.right > W:
+    #         self.rect.right = W
+    #     elif self.rect.left < 0:
+    #         self.rect.left = 0
 
     def move_up(self):
         self.speed_y = -8

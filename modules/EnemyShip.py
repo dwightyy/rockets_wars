@@ -34,5 +34,5 @@ class EnemyShip(Ship):
         self.speed_x = -1
         self.rect.x += self.speed_x
         self.rect.y += self.speed_y
-        self.check_boundaries()
+        # self.check_boundaries()
         self.move()
