@@ -20,14 +20,14 @@ CLOCK = pygame.time.Clock()
 DS = pygame.display.set_mode((W, H))
 pygame.display.set_caption("Enemies Atacks the moon - seasson 1")
 
-def main ():
+
+def main():
     # score
     score = 0
 
     # defining time
     minutes = 0
     seconds = 0
-
 
     # define lifebar
     life = 100
@@ -50,7 +50,6 @@ def main ():
 
     x = 0
 
-
     def game_intro():
 
         intro = True
@@ -70,19 +69,20 @@ def main ():
 
             DS.fill(WHITE)
             gameName = FONT2.render("ROCKETS WAR", False, (GREEN))
-            startInstruction = FONT.render("Press the mouse or any key to start the game", False, (BLACK))
-            startInstruction2 = FONT.render("Press esc or q anytime to quit the game", False, (BLACK))
+            startInstruction = FONT.render(
+                "Press the mouse or any key to start the game", False, (BLACK))
+            startInstruction2 = FONT.render(
+                "Press esc or q anytime to quit the game", False, (BLACK))
             gameNameRect = gameName.get_rect()
             gameNameRect.center = (HW, (HH-150))
             DS.blit(gameName, gameNameRect)
             DS.blit(startInstruction, (330, HH))
             DS.blit(startInstruction2, (370, (HH+60)))
             pygame.display.update()
-            #CLOCK.tick(15)
-
+            # CLOCK.tick(15)
 
     def change_fase():
-        
+
         newfase = True
 
         while newfase:
@@ -98,22 +98,25 @@ def main ():
                 if event.type == pygame.MOUSEBUTTONDOWN or (event.type == KEYDOWN and event.key == K_c):
                     return
 
-            DS.fill(WHITE)        
+            DS.fill(WHITE)
             congratulations = FONT3.render("CONGRATULATIONS!", False, (GREEN))
-            faseName = FONT3.render("YOU FINISHED THE FASE " + str(fase), False, (GREEN))
-            faseInstruction = FONT.render("Press the mouse or c to start the new fase", False, (BLACK))
-            faseInstruction2 = FONT.render("Press esc or q anytime to quit the game", False, (BLACK))
+            faseName = FONT3.render(
+                "YOU FINISHED THE FASE " + str(fase), False, (GREEN))
+            faseInstruction = FONT.render(
+                "Press the mouse or c to start the new fase", False, (BLACK))
+            faseInstruction2 = FONT.render(
+                "Press esc or q anytime to quit the game", False, (BLACK))
             congratulationsRect = congratulations.get_rect()
-            congratulationsRect.center = (HW,(HH-90))
-            DS.blit(congratulations, congratulationsRect)        
-            DS.blit(faseName, (380,(HH-70)))
+            congratulationsRect.center = (HW, (HH-90))
+            DS.blit(congratulations, congratulationsRect)
+            DS.blit(faseName, (380, (HH-70)))
             DS.blit(faseInstruction, (350, HH))
             DS.blit(faseInstruction2, (370, (HH+60)))
             pygame.display.update()
-            #CLOCK.tick(15)
+            # CLOCK.tick(15)
 
     def end_game():
-        
+
         endGame = True
 
         while endGame:
@@ -129,40 +132,50 @@ def main ():
                 if event.type == pygame.MOUSEBUTTONDOWN or (event.type == KEYDOWN and event.key == K_c):
                     return
 
-            DS.fill(WHITE)        
+            DS.fill(WHITE)
             congratulations = FONT3.render("CONGRATULATIONS!", False, (GREEN))
             faseName = FONT3.render("YOU FINISHED THE GAME!", False, (GREEN))
-            yourScore = FONT.render("Final Score: " + str(score), False, (BLACK))
-            faseInstruction = FONT.render("Press the mouse or c to start a new game", False, (BLACK))
-            faseInstruction2 = FONT.render("Press esc or q anytime to quit the game", False, (BLACK))
+            yourScore = FONT.render(
+                "Final Score: " + str(score), False, (BLACK))
+            faseInstruction = FONT.render(
+                "Press the mouse or c to start a new game", False, (BLACK))
+            faseInstruction2 = FONT.render(
+                "Press esc or q anytime to quit the game", False, (BLACK))
             congratulationsRect = congratulations.get_rect()
-            congratulationsRect.center = (HW,(HH-90))
-            DS.blit(congratulations, congratulationsRect)        
-            DS.blit(faseName, (380,(HH-70)))
+            congratulationsRect.center = (HW, (HH-90))
+            DS.blit(congratulations, congratulationsRect)
+            DS.blit(faseName, (380, (HH-70)))
             DS.blit(yourScore, (550, HH))
             DS.blit(faseInstruction, (350, HH+60))
             DS.blit(faseInstruction2, (370, (HH+120)))
             pygame.display.update()
-            #CLOCK.tick(15)              
+            # CLOCK.tick(15)
 
-    def spawn_enemy_ships(enemy_ships):
+    def spawn_enemy_ships(enemy_ships, level):
+        if level == 1:
+            enemy_ship_life = 200
+        elif level == 2:
+            enemy_ship_life = 400
+        elif level == 3:
+            enemy_ship_life = 600
+
         for i in range(5):
-            random_y, random_x = random.randint(50, 680), random.randint(1000, 1150)
-            enemy_ships.add(EnemyShip(random_x, random_y))
+            random_y, random_x = random.randint(
+                50, 680), random.randint(1000, 1150)
+            enemy_ships.add(EnemyShip(random_x, random_y, enemy_ship_life))
         return enemy_ships
 
-    enemy_ships = spawn_enemy_ships(enemy_ships)
+    enemy_ships = spawn_enemy_ships(enemy_ships, fase)
 
     game_intro()
 
     all_sprites.add(enemy_ships)
-    start_ticks=pygame.time.get_ticks()    
+    start_ticks = pygame.time.get_ticks()
 
-    while True:    
-        CLOCK.tick(FPS)    
-        game_fase = FONT.render("Fase " + str(fase), False, (WHITE))
-        
-        
+    while True:
+        CLOCK.tick(FPS)
+        game_fase_font = FONT.render("Fase " + str(fase), False, (WHITE))
+
         for event in pygame.event.get():
             if event.type == QUIT or (event.type == KEYDOWN and (event.key == K_ESCAPE or event.key == K_q)):
                 pygame.quit()
@@ -176,12 +189,11 @@ def main ():
         if seconds > 60:
             minutes += 1
             seconds = 0
-            start_ticks=pygame.time.get_ticks()
-        timelabel = FONT.render("{}:{}".format(minutes, int(seconds)), False, (WHITE))    
-        
+            start_ticks = pygame.time.get_ticks()
+        timelabel = FONT.render("{}:{}".format(
+            minutes, int(seconds)), False, (WHITE))
 
         DS.fill(BLACK)
-
 
         rel_x = x % bg.get_rect().width
         DS.blit(bg, (rel_x - bg.get_rect().width, 0))
@@ -189,14 +201,17 @@ def main ():
             DS.blit(bg, (rel_x, 0))
         x -= 1
 
-
         k = pygame.key.get_pressed()
-    
 
         all_sprites.update()
-    
 
-        hits_enemy_ship = pygame.sprite.groupcollide(enemy_ships, bullets, True, True)    
+        hits_enemy_ship = pygame.sprite.groupcollide(
+            enemy_ships, bullets, False, True)
+        if hits_enemy_ship:
+            for hit_ship in hits_enemy_ship:
+                hit_ship.enemy_ship_life -= ship.damage
+                if hit_ship.enemy_ship_life <= 0:
+                    hit_ship.kill()
 
         if hits_enemy_ship != {} and fase == 1:
             score += 10
@@ -204,14 +219,14 @@ def main ():
             score += 20
         if hits_enemy_ship != {} and fase == 3:
             score += 30
-            
+
         game_score = FONT.render("Score: " + str(score), False, (WHITE))
 
         if minutes == 1 and fase == 1:
             change_fase()
             bg = pygame.image.load("assets/imgs/mountains.png").convert()
             bg_rect = bg.get_rect()
-            start_ticks=pygame.time.get_ticks()
+            start_ticks = pygame.time.get_ticks()
             seconds = 0
             minutes = 0
             fase = 2
@@ -220,27 +235,27 @@ def main ():
             change_fase()
             bg = pygame.image.load("assets/imgs/space.jpg").convert()
             bg_rect = bg.get_rect()
-            start_ticks=pygame.time.get_ticks()
+            start_ticks = pygame.time.get_ticks()
             seconds = 0
             minutes = 0
             fase = 3
 
         if minutes == 3 and fase == 3:
             end_game()
-            main()     
-            
+            main()
 
         # pygame.draw.rect(DS, RED, pygame.Rect(20, 20, 100, 30))
         # pygame.draw.rect(DS, GREEN, pygame.Rect(20, 20, life, 30))
 
     # Draw / render
 
-        DS.blit(game_fase, (10, 20))
-        DS.blit(timelabel,(1180, 20))
+        DS.blit(game_fase_font, (10, 20))
+        DS.blit(timelabel, (1180, 20))
         DS.blit(game_score, (10, 60))
-        
+
         all_sprites.draw(DS)
-        # *after* drawing everything, flip the display
+    # *after* drawing everything, flip the display
         pygame.display.flip()
+
 
 main()

@@ -1,6 +1,7 @@
 import pygame
 from modules.config import *
 
+
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
@@ -28,6 +29,7 @@ class Ship(pygame.sprite.Sprite):
         self.rect.centery = H / 2
         self.rect.centerx = 50
         self.speed_x = 0
+        self.damage = 100
 
     def update(self):
         self.speed_x = 0

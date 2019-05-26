@@ -4,13 +4,14 @@ from modules.ship import *
 
 
 class EnemyShip(Ship):
-    def __init__(self, x, y):
+    def __init__(self, x, y, enemy_ship_life):
         Ship.__init__(self)
         self.speed_y = 2
         self.rect.centery = y
         self.rect.centerx = x
         self.points = self.get_move_points()
         self.column = 0
+        self.enemy_ship_life = enemy_ship_life
 
     def get_move_points(self):
         first = 0
