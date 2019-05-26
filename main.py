@@ -20,6 +20,8 @@ CLOCK = pygame.time.Clock()
 DS = pygame.display.set_mode((W, H))
 pygame.display.set_caption("Enemies Atacks the moon - seasson 1")
 
+enemy_ship_damage = [20, 30, 40]
+
 
 spawn_ships_time = [2, 10, 15, 25, 45, 62, 70, 85, 100, 122, 140, 155]
 
@@ -187,6 +189,7 @@ def main():
 
         CLOCK.tick(FPS)
         game_fase_font = FONT.render("Fase " + str(fase), False, (WHITE))
+        ship_life_font = FONT.render("Life: "+str(ship.life), True, (WHITE))
 
         for event in pygame.event.get():
             if event.type == QUIT or (event.type == KEYDOWN and (event.key == K_ESCAPE or event.key == K_q)):
@@ -226,11 +229,15 @@ def main():
 
         all_sprites.update()
 
+        # verifica se bala acertou inimigo
         hits_enemy_ship = pygame.sprite.groupcollide(
             enemy_ships, bullets, False, True)
 
+        # verifica se corpo da nave colidiu com o inimigo
         ship_hit_by_enemy = pygame.sprite.groupcollide(
             main_ship_sprite_group, enemy_ships, False, True)
+        if ship_hit_by_enemy:
+            ship.life -= enemy_ship_damage[fase-1]
 
         if hits_enemy_ship:
             for hit_ship in hits_enemy_ship:
@@ -274,7 +281,7 @@ def main():
         # pygame.draw.rect(DS, GREEN, pygame.Rect(20, 20, life, 30))
 
     # Draw / render
-
+        DS.blit(ship_life_font, (10, 40))
         DS.blit(game_fase_font, (10, 20))
         DS.blit(timelabel, (1180, 20))
         DS.blit(game_score, (10, 60))

@@ -30,6 +30,7 @@ class Ship(pygame.sprite.Sprite):
         self.rect.centerx = 50
         self.speed_x = 0
         self.damage = 100
+        self.life = 100
 
     def update(self):
         self.speed_x = 0
