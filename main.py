@@ -21,12 +21,15 @@ DS = pygame.display.set_mode((W, H))
 pygame.display.set_caption("Enemies Atacks the moon - seasson 1")
 
 enemy_ship_damage = [20, 30, 40]
+enemy_ship_bullet_damage = [10, 20, 30]
 
 
 spawn_ships_time = [2, 10, 15, 25, 45, 62, 70, 85, 100, 122, 140, 155]
 
 
 def main():
+    flag_enemy_shoot = 1
+
     # score
     score = 0
 
@@ -49,6 +52,7 @@ def main():
 
     all_sprites = pygame.sprite.Group()
     bullets = pygame.sprite.Group()
+    enemyBullets = pygame.sprite.Group()
 
     ship = Ship()
 
@@ -167,9 +171,9 @@ def main():
         elif level == 3:
             enemy_ship_life = 600
 
-        for i in range(5):
+        for i in range(3):
             random_y, random_x = random.randint(
-                50, 680), random.randint(1000, 1150)
+                50, 680), random.randint(900, 2000)
             enemy_ships.add(EnemyShip(random_x, random_y, enemy_ship_life))
         return enemy_ships
 
@@ -177,6 +181,7 @@ def main():
         for en_ships in enemy_ships:
             if en_ships.rect.left <= -20:
                 en_ships.kill()
+
 
     game_intro()
 
@@ -191,6 +196,10 @@ def main():
         game_fase_font = FONT.render("Fase " + str(fase), False, (WHITE))
         ship_life_font = FONT.render("Life: "+str(ship.life), True, (WHITE))
 
+        if ship.life <= 0:
+            end_game()
+
+
         for event in pygame.event.get():
             if event.type == QUIT or (event.type == KEYDOWN and (event.key == K_ESCAPE or event.key == K_q)):
                 pygame.quit()
@@ -198,7 +207,7 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     all_sprites = ship.shoot(all_sprites, bullets)
-                    print(all_sprites, bullets)
+
 
         seconds = int((pygame.time.get_ticks()-start_ticks)/1000)
         if seconds > 60:
@@ -207,6 +216,17 @@ def main():
             start_ticks = pygame.time.get_ticks()
         timelabel = FONT.render("{}:{}".format(
             minutes, int(seconds)), False, (WHITE))
+
+    
+        if seconds % random.randint(1, 5) == 0 and flag_enemy_shoot == 1:
+            curr_second_enemy_shoot = seconds 
+            flag_enemy_shoot = 0
+            for enemy_ship in enemy_ships:
+                        enemy_ship.shoot(all_sprites, enemyBullets)
+
+        if seconds == curr_second_enemy_shoot + 4:
+            flag_enemy_shoot = 1
+
 
         DS.fill(BLACK)
 
@@ -227,11 +247,19 @@ def main():
         if seconds == curr_second + 1:
             enemy_ship_spawn_flag = 1
 
+            
+
+
+
         all_sprites.update()
 
         # verifica se bala acertou inimigo
         hits_enemy_ship = pygame.sprite.groupcollide(
             enemy_ships, bullets, False, True)
+
+        enemy_ship_hit_main = pygame.sprite.groupcollide(enemyBullets, main_ship_sprite_group, True, False)
+        if enemy_ship_hit_main:
+            ship.life -= enemy_ship_bullet_damage[fase-1]
 
         # verifica se corpo da nave colidiu com o inimigo
         ship_hit_by_enemy = pygame.sprite.groupcollide(
